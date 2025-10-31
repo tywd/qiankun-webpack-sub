@@ -1,17 +1,30 @@
 import { createApp, App as VueApp } from 'vue';
+import type { Component } from 'vue';
 import App from './App.vue';
 import router from './router'
-import './styles/index.scss';
+import { createPinia } from 'pinia';
 import { isQiankunEnv } from './utils';
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+import '@/styles/index.scss';
 
 // 应用实例和路由实例
 let app: VueApp | null = null;
+
+// 创建Pinia实例
+const pinia = createPinia()
 
 // 初始化应用
 function initApp(container: HTMLElement | string) {
   // 创建应用
   app = createApp(App);
-  app.use(router);
+  app.use(router).use(pinia).use(ElementPlus);
+
+  // 注册Element Plus图标
+  for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component as Component);
+  }
   app.mount(container instanceof HTMLElement ? container : document.querySelector('micro-app-container') || '#app');
 }
 
@@ -28,7 +41,7 @@ export async function bootstrap() {
 // 2. 挂载钩子（每次进入子应用时调用）
 export async function mount(props: any) {
   console.log('子应用 mount，接收主应用参数：', props);
-  
+
   // 处理publicPath（qiankun要求）
   if (window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__) {
     // @ts-ignore

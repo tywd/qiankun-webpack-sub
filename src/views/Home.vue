@@ -2,12 +2,16 @@
   <div class="sub-home">
     <h3>子应用首页</h3>
     <p>这是一个基于Webpack+Vue3+TypeScript的qiankun子应用</p>
-    
+
     <div class="global-state">
       <h4>全局状态展示</h4>
       <p>当前用户：{{ userInfo.name || '未登录' }}</p>
       <button @click="changeGlobalState">修改全局用户信息</button>
     </div>
+    <nav>
+      <router-link to="/">子应用首页</router-link>
+      <router-link to="/profile">子应用个人中心</router-link>
+    </nav>
   </div>
 </template>
 
