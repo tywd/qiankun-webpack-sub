@@ -10,7 +10,7 @@
           @click="switchTab(tab)"
           @contextmenu.prevent="showContextMenu($event, tab)"
         >
-          <span class="tab-name">{{ tab.name }}</span>
+          <span class="tab-name">{{ tab.title }}</span>
           <el-icon
             v-if="tab.closable"
             class="tab-close"

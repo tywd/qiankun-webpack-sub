@@ -2,9 +2,10 @@
 export interface NavTab {
   id: string;
   name: string;
+  title?: string;
   path: string;
-  component: string;
-  closable: boolean; // 是否可关闭
+  component?: string;
+  closable?: boolean; // 是否可关闭
   isActive: boolean;
 }
 
@@ -19,7 +20,7 @@ export interface UserInfo {
 // 菜单项类型（支持多级）
 export interface MenuItem {
   id: string;
-  name: string;
+  title: string;
   path?: string;
   icon?: string;
   children?: MenuItem[];

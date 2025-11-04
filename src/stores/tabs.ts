@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { NavTab } from '../types';
+import router from "@/router";
 
 export const useTabsStore = defineStore('Tabs', {
   state: () => ({
@@ -7,11 +8,17 @@ export const useTabsStore = defineStore('Tabs', {
     tabs: [
       {
         id: 'home',
-        name: '数据看板',
-        path: '/home',
-        component: 'Home',
+        title: '子应用看板',
+        path: '/dashboard',
         closable: false,
         isActive: true
+      },
+      {
+        id: 'project',
+        title: '虚拟列表',
+        path: '/project/virtual-list',
+        closable: false,
+        isActive: false
       }
     ] as NavTab[],
     activeTabId: 'home' as string
@@ -38,7 +45,7 @@ export const useTabsStore = defineStore('Tabs', {
     },
 
     // 添加新的导航Tab（用于后续扩展）
-    addTab(tab: Omit<NavTab, 'id' | 'isActive'>) {
+    addTab(tab: Omit<NavTab, 'isActive'>) {
       // 先检查标签页是否已存在
       const existingTab = this.tabs.find(t => t.path === tab.path);
       if (existingTab) {
@@ -49,7 +56,6 @@ export const useTabsStore = defineStore('Tabs', {
 
       const newTab: NavTab = {
         ...tab,
-        id: `tab-${Date.now()}`,
         isActive: true
       };
 
@@ -76,6 +82,7 @@ export const useTabsStore = defineStore('Tabs', {
       if (isActive) {
         // 如果删除的是当前激活的Tab，激活前一个Tab
         const newIndex = Math.max(0, tabIndex - 1);
+        router.push(this.tabs[newIndex].path)
         this.setActiveTab(this.tabs[newIndex].id);
       }
     },

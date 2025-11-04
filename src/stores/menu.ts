@@ -7,19 +7,28 @@ export const useMenuStore = defineStore('menu', {
     // 菜单数据（支持多级）
     menus: [
       {
-        id: 'home',
-        name: '数据看板',
-        path: '/home',
+        id: 'dashboard',
+        title: '子应用看板',
+        path: '/dashboard',
         icon: 'DataAnalysis',
         level: 1
       },
       {
-        id: 'profile',
-        name: '个人中心',
-        path: '/profile',
-        icon: 'User',
+        id: 'project',
+        title: '项目模拟',
+        icon: 'Setting',
         level: 1,
-      }
+        children: [
+          {
+            id: 'virtual-list',
+            title: '虚拟列表',
+            path: '/project/virtual-list',
+            icon: 'Tools',
+            level: 2,
+            parentId: 'project'
+          }
+        ]
+      },
     ] as MenuItem[],
     collapsed: false, // 侧边栏是否折叠
     activeMenu: 'home', // 当前激活的菜单
@@ -52,7 +61,7 @@ export const useMenuStore = defineStore('menu', {
         for (const menu of menus) {
           if (menu.path === targetPath) {
             breadcrumb.unshift({ 
-              title: menu.name, 
+              title: menu.title, 
               path: menu.path,
               icon: menu.icon 
             });
@@ -60,9 +69,9 @@ export const useMenuStore = defineStore('menu', {
           }
           if (menu.children) {
             if (findPath(menu.children, targetPath)) {
-              if (menu.name) {
+              if (menu.title) {
                 breadcrumb.unshift({ 
-                  title: menu.name, 
+                  title: menu.title, 
                   path: menu.path,
                   icon: menu.icon 
                 });

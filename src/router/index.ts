@@ -5,19 +5,25 @@ import { useMenuStore } from '../stores/menu';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/dashboard'
   },
   {
-    path: '/home',
-    name: 'SubHome',
-    component: () => import('@/views/Home.vue'),
-    meta: { title: '数据看板' }
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('@/views/dashboard.vue'),
+    meta: { title: '子应用看板' }
   },
   {
-    path: '/profile',
-    name: 'Profile',
-    component: () => import('@/views/Profile.vue'),
-    meta: { title: '个人中心' }
+    path: '/project',
+    name: 'project',
+    children: [
+      {
+        path: '/project/virtual-list',
+        name: 'virtualList',
+        component: () => import('@/views/project/virtual-list.vue'),
+        meta: { title: '虚拟列表' }
+      }
+    ]
   }
 ];
 
@@ -29,7 +35,7 @@ const router: Router = createRouter({
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  console.log('用户管理子应用路由变化:', {
+  console.log('sub-路由守卫:', to, {
     to: to.path,
     from: from.path,
     fullPath: to.fullPath,
@@ -41,17 +47,17 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta?.title) {
     document.title = `子应用 - ${to.meta.title}`
-    // 添加标签页
-    tabsStore.addTab({
-      name: to.meta.title as string,
-      path: to.path,
-      closable: to.path !== '/dashboard', // 首页不可关闭
-      component: to.name as string
-    });
     // 设置激活的菜单
     const menuItem = menuStore.findMenuByPath(to.path);
     if (menuItem) {
       menuStore.setActiveMenu(menuItem.id);
+      // 添加标签页
+      tabsStore.addTab({
+        id: menuItem?.id,
+        name: to.meta.title as string,
+        path: to.path,
+        closable: to.path !== '/dashboard', // 首页不可关闭
+      });
     }
   }
   next()
