@@ -8,17 +8,10 @@ export const useTabsStore = defineStore('Tabs', {
     tabs: [
       {
         id: 'home',
-        title: '子应用看板',
+        name: '子应用看板',
         path: '/dashboard',
         closable: false,
         isActive: true
-      },
-      {
-        id: 'project',
-        title: '虚拟列表',
-        path: '/project/virtual-list',
-        closable: false,
-        isActive: false
       }
     ] as NavTab[],
     activeTabId: 'home' as string

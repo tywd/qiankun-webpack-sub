@@ -9,8 +9,8 @@
       <button @click="changeGlobalState">修改全局用户信息</button>
     </div>
     <nav>
-      <router-link to="/">子应用首页</router-link>
-      <router-link to="/profile">子应用个人中心</router-link>
+      <router-link to="/">子应用首页</router-link> &nbsp; &nbsp;
+      <router-link to="/project/virtual-list">子应用虚拟列表</router-link>
     </nav>
   </div>
 </template>

@@ -1,6 +1,7 @@
 // 菜单状态管理
 import { defineStore } from 'pinia';
 import { MenuItem } from '../types';
+import { transformMenu } from '@/utils';
 
 export const useMenuStore = defineStore('menu', {
   state: () => ({
@@ -13,26 +14,27 @@ export const useMenuStore = defineStore('menu', {
         icon: 'DataAnalysis',
         level: 1
       },
-      {
-        id: 'project',
-        title: '项目模拟',
-        icon: 'Setting',
-        level: 1,
-        children: [
-          {
-            id: 'virtual-list',
-            title: '虚拟列表',
-            path: '/project/virtual-list',
-            icon: 'Tools',
-            level: 2,
-            parentId: 'project'
-          }
-        ]
-      },
+      // {
+      //   id: 'project',
+      //   title: '项目模拟',
+      //   icon: 'Setting',
+      //   level: 1,
+      //   children: [
+      //     {
+      //       id: 'virtual-list',
+      //       title: '虚拟列表',
+      //       path: '/project/virtual-list',
+      //       icon: 'Tools',
+      //       level: 2,
+      //       parentId: 'project'
+      //     }
+      //   ]
+      // },
     ] as MenuItem[],
     collapsed: false, // 侧边栏是否折叠
     activeMenu: 'home', // 当前激活的菜单
-    openMenus: ['home'] as string[] // 展开的菜单项
+    openMenus: ['home'] as string[], // 展开的菜单项
+    isLoaded: false // 是否加载完成所有菜单
   }),
 
   getters: {
@@ -131,6 +133,12 @@ export const useMenuStore = defineStore('menu', {
     // 获取面包屑路径
     getBreadcrumb(path: string) {
       return this.breadcrumb(path);
+    },
+    // 合并菜单
+    mergeMenu(routes: any[]) {
+      if (this.isLoaded) return; // 菜单已经加载则无需再合并menus
+      this.menus = [...this.menus, ...transformMenu(routes)]
+      this.isLoaded = true
     }
   }
 });

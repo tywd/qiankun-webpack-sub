@@ -1,8 +1,8 @@
-import { baseUrl } from '@/utils';
+import { baseUrl, getAllRoute, transformRoutes } from '@/utils';
 import { createRouter, createWebHistory, RouteRecordRaw, Router } from 'vue-router';
 import { useTabsStore } from '../stores/tabs';
 import { useMenuStore } from '../stores/menu';
-const routes: RouteRecordRaw[] = [
+const baseRoutes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/dashboard'
@@ -12,20 +12,11 @@ const routes: RouteRecordRaw[] = [
     name: 'dashboard',
     component: () => import('@/views/dashboard.vue'),
     meta: { title: '子应用看板' }
-  },
-  {
-    path: '/project',
-    name: 'project',
-    children: [
-      {
-        path: '/project/virtual-list',
-        name: 'virtualList',
-        component: () => import('@/views/project/virtual-list.vue'),
-        meta: { title: '虚拟列表' }
-      }
-    ]
   }
 ];
+const _routes: any[] = getAllRoute()
+const mainRoutes: RouteRecordRaw[] = transformRoutes(_routes);
+const routes: RouteRecordRaw[] = [...baseRoutes, ...mainRoutes];
 
 // 创建路由
 const router: Router = createRouter({
@@ -44,7 +35,7 @@ router.beforeEach((to, from, next) => {
   })
   const tabsStore = useTabsStore();
   const menuStore = useMenuStore();
-
+  menuStore.mergeMenu(getAllRoute());
   if (to.meta?.title) {
     document.title = `子应用 - ${to.meta.title}`
     // 设置激活的菜单
@@ -53,7 +44,7 @@ router.beforeEach((to, from, next) => {
       menuStore.setActiveMenu(menuItem.id);
       // 添加标签页
       tabsStore.addTab({
-        id: menuItem?.id,
+        id: menuItem.id,
         name: to.meta.title as string,
         path: to.path,
         closable: to.path !== '/dashboard', // 首页不可关闭
@@ -64,7 +55,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to) => {
-  console.log('用户管理子应用路由切换完成:', to.path)
+  console.log('子应用路由切换完成:', to.path)
 })
 
 export default router;

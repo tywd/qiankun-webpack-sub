@@ -10,7 +10,7 @@
           @click="switchTab(tab)"
           @contextmenu.prevent="showContextMenu($event, tab)"
         >
-          <span class="tab-name">{{ tab.title }}</span>
+          <span class="tab-name">{{ tab.name }}</span>
           <el-icon
             v-if="tab.closable"
             class="tab-close"
@@ -179,6 +179,8 @@ onUnmounted(() => {
         cursor: pointer;
         min-width: 120px;
         transition: all 0.3s;
+        position: relative;
+        text-align: center;
         
         &:hover {
           background-color: #f5f5f5;
@@ -211,6 +213,9 @@ onUnmounted(() => {
           padding: 2px;
           opacity: 0;
           transition: all 0.3s;
+          position: absolute;
+          right: 0;
+          top: 0;
           
           &:hover {
             background-color: #d9d9d9;
