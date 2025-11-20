@@ -1,7 +1,8 @@
-import { baseUrl, getAllRoute, transformRoutes } from '@/utils';
+import { getAllRoute, transformRoutes } from '@/utils';
 import { createRouter, createWebHistory, RouteRecordRaw, Router } from 'vue-router';
 import { useTabsStore } from '../stores/tabs';
 import { useMenuStore } from '../stores/menu';
+import { baseUrl } from '@/micro';
 
 // 基础路由
 const baseRoutes: RouteRecordRaw[] = [
