@@ -1,0 +1,3 @@
+{
+  "extends": ["@tywd/shared-configs/stylelint"]
+}

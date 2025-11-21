@@ -7,7 +7,7 @@ const devConfig: Configuration & { devServer?: DevServerConfiguration } = merge(
   mode: 'development',
   devtool: 'eval-cheap-module-source-map',
   devServer: {
-    port: 8081, // 子应用端口（与主应用配置一致）
+    port: Number(process.env.PORT) || 8081, // 子应用端口（与主应用配置一致）
     open: true,
     historyApiFallback: true,
     hot: true,
