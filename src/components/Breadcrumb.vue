@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { useMenuStore } from '../stores/menu';
+import { useMenuStore } from '@/stores/menu';
 
 const route = useRoute();
 const menuStore = useMenuStore();

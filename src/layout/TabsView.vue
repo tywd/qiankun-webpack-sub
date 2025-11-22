@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, onMounted, onUnmounted } from 'vue';
+import { computed, reactive, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Close, MoreFilled } from '@element-plus/icons-vue';
 import { useTabsStore } from '../stores/tabs';
@@ -64,8 +64,6 @@ import { useTabsStore } from '../stores/tabs';
 const route = useRoute();
 const router = useRouter();
 const tabsStore = useTabsStore();
-
-const currentRoute = computed(() => route.path);
 
 // 右键菜单相关
 const contextMenu = reactive({
